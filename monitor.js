@@ -84,31 +84,31 @@ var actions = {
 
 function startPubNub(cb) {
 	PN.subscribe({
-	  channel:'ch1',
-	  callback: function(message) {
-	    if(message.type=='action') {
-	      if(message.action == 'arrive') {
-	        console.log("homer is home. turn on lights and music, open garage door");
-	        actions.arriveHome();
-	      }
-	      if(message.action == 'party') {
-		    actions.party();
-	      }
-	      if(message.action == 'sleep') {
-		    actions.sleep();
-	      }
-	      if(message.action == 'close') {
-		      actions.close();
-	      }
-	      if(message.action == 'shutdown') {
-		      actions.shutdown();
-	      }
-	      if(message.action == 'startup') {
-		      actions.startup();
-	      }
-	    }
-	    console.log(">",message);
-	  }
+		channel:'ch1',
+		callback: function(message) {
+		    if(message.type=='action') {
+				if(message.action == 'arrive') {
+					console.log("homer is home. turn on lights and music, open garage door");
+					actions.arriveHome();
+				}
+				if(message.action == 'party') {
+					actions.party();
+				}
+				if(message.action == 'sleep') {
+					actions.sleep();
+				}
+				if(message.action == 'close') {
+					actions.close();
+				}
+				if(message.action == 'shutdown') {
+					actions.shutdown();
+				}
+				if(message.action == 'startup') {
+					actions.startup();
+				}
+			}
+			console.log(">",message);
+		}
 	});
 	if(cb) cb();
 }
