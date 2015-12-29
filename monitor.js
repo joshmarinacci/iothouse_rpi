@@ -119,11 +119,14 @@ function d_wait(len) {
 	}
 }
 
+var RED = 11;
+var BLUE = 13;
+var GREEN = 15;
 async.series([
 	function(cb) { Stepper.init(22,18,16,12,cb)},
 	function(cb) { console.log("stepper is rolling"); cb(); },
 	
-	function(cb) { RGBLED.init(29,31,33,cb); },
+	function(cb) { RGBLED.init(RED, GREEN, BLUE,cb); },
 	function(cb) { RGBLED.setAll(true,cb)},
 	d_wait(500),
 	function(cb) { RGBLED.setAll(false,cb)},

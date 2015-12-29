@@ -5,13 +5,14 @@ var RGBLED = {
 		this.red = R;
 		this.green = G;
 		this.blue = B;
-		gpio.setup(this.red, gpio.DIR_OUT);
+		gpio.setup(this.red, gpio.DIR_OUT, function() {
+ 			console.log("the red is set up");
+                });
 		gpio.setup(this.green, gpio.DIR_OUT);
-		gpio.setup(this.blue, gpio.DIR_OUT);
-		setTimeout(function(){
-			console.log("LED is set up on",R,G,B)
+		gpio.setup(this.blue, gpio.DIR_OUT, function(){
+   			console.log("LED is set up on",R,G,B)
 			if(cb) cb();
-		},100);
+		});
 	},
 	setRed: function(val,cb) {
 		var self = this;

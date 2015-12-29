@@ -1,0 +1,24 @@
+{
+  "name": "iothouse_rpi",
+  "version": "0.0.0",
+  "description": "",
+  "main": "monitor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshmarinacci/iothouse_rpi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshmarinacci/iothouse_rpi/issues"
+  },
+  "homepage": "https://github.com/joshmarinacci/iothouse_rpi",
+  "dependencies": {
+    "async": "^1.5.0",
+    "rpi-gpio": "^0.7.0",
+    "pubnub": "^3.7.18"
+  }
+}
