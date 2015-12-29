@@ -11,10 +11,10 @@ var Stepper = {
 		gpio.setup(this.s2,gpio.DIR_OUT);
 		gpio.setup(this.s3,gpio.DIR_OUT);
 		gpio.setup(this.s4,gpio.DIR_OUT);
-		console.log("stepper is setup on",s1,s2,s3,s4 );
 		setTimeout(function(){
+          		console.log("stepper is setup on",s1,s2,s3,s4 );
 			if(cb)cb();
-		},100);
+		},1000);
 	},
 	stepForward: function(count,cb) {
 		var self = this;

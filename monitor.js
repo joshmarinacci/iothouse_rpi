@@ -123,7 +123,7 @@ var RED = 11;
 var BLUE = 13;
 var GREEN = 15;
 async.series([
-	function(cb) { Stepper.init(22,18,16,12,cb)},
+	function(cb) { Stepper.init(12,16,18,22,cb)},
 	function(cb) { console.log("stepper is rolling"); cb(); },
 	
 	function(cb) { RGBLED.init(RED, GREEN, BLUE,cb); },
