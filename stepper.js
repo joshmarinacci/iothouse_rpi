@@ -12,7 +12,7 @@ var Stepper = {
 		gpio.setup(this.s3,gpio.DIR_OUT);
 		gpio.setup(this.s4,gpio.DIR_OUT);
 		setTimeout(function(){
-          		console.log("stepper is setup on",s1,s2,s3,s4 );
+       		console.log("stepper is setup on",s1,s2,s3,s4 );
 			if(cb)cb();
 		},1000);
 	},
@@ -50,7 +50,7 @@ var Stepper = {
 			function(cb) { self._setLines(1,1,0,0,cb); }
 		], function() { cb(); });
 	},
-	_DELAY:2,
+	_DELAY:5,
 	_setLines: function(A,B,C,D,cb) {
 		var self = this;
 		async.series([

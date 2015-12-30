@@ -32,11 +32,12 @@ PN.publish({
   }
 })
 
+var GARAGE_DISTANCE = 130;
 
 var actions = {
 	
 	arriveHome: function() {
-        Stepper.stepForward(100);
+        Stepper.stepForward(GARAGE_DISTANCE);
         RGBLED.setAll(true);
         console.log("lights are on");
 	},
@@ -44,13 +45,14 @@ var actions = {
         console.log("start blinking the party lights");
         var on = true;
         var count = 0;
+        RGBLED.setAll(false);
         var id = setInterval(function() {
 	        if(on===false) {
 		        on = true;
-		        RGBLED.setAll(true);
+		        RGBLED.setRed(true);
 	        } else {
 		        on = false;
-		        RGBLED.setAll(false);
+		        RGBLED.setRed(false);
 	        }
 	        count++;
 	        if(count >= 20) {
@@ -60,55 +62,59 @@ var actions = {
         },250);
 	},
 	sleep: function() {
-		console.log("turning lights to red");
+		console.log("turning lights to blue");
 		RGBLED.setAll(false);
-		RGBLED.setRed(true);
+		RGBLED.setBlue(true);
         console.log("maggie wants to sleep. dim lights");
 	},
 	close: function() {
         console.log("closing the garage door");
-        Stepper.stepBackward(100);
+        Stepper.stepBackward(GARAGE_DISTANCE);
 	},
 	shutdown: function() {
         console.log("shut everything off");
-        RGBLED.setAll(false);
-        Stepper.stop();
+        Stepper.stepBackward(GARAGE_DISTANCE,function() {
+            Stepper.stop(function() {
+                RGBLED.setAll(false);
+            });
+        });
 	},
 	startup: function() {
         console.log("starting up. blinking lights. toggling stepper motor");		
         RGBLED.setAll(true);
         setTimeout(function() { RGBLED.setAll(false); },500);
-	}
+	},
+	stepDoorClose: function() {
+    	console.log("doing backward 10");
+        Stepper.stepBackward(10, function() {
+            console.log("did back");
+        });
+	},
+	stepDoorOpen: function() {
+    	console.log("doing forward 10");
+        Stepper.stepForward(10, function() {
+            console.log("did forward");
+        });
+	},
 }
 
 
 function startPubNub(cb) {
-	PN.subscribe({
-		channel:'ch1',
-		callback: function(message) {
-		    if(message.type=='action') {
-				if(message.action == 'arrive') {
-					console.log("homer is home. turn on lights and music, open garage door");
-					actions.arriveHome();
-				}
-				if(message.action == 'party') {
-					actions.party();
-				}
-				if(message.action == 'sleep') {
-					actions.sleep();
-				}
-				if(message.action == 'close') {
-					actions.close();
-				}
-				if(message.action == 'shutdown') {
-					actions.shutdown();
-				}
-				if(message.action == 'startup') {
-					actions.startup();
-				}
-			}
-			console.log(">",message);
-		}
+    PN.subscribe({
+        channel:'ch1',
+        callback: function(message) {
+            if(message.type=='action') {
+                if(message.action == 'arrive') { actions.arriveHome(); }
+                if(message.action == 'party') { actions.party(); }
+                if(message.action == 'sleep') { actions.sleep(); }
+                if(message.action == 'close') { actions.close(); }
+                if(message.action == 'shutdown') { actions.shutdown(); }
+                if(message.action == 'startup') { actions.startup(); }
+                if(message.action == 'stepDoorClose') { actions.stepDoorClose(); }
+                if(message.action == 'stepDoorOpen') { actions.stepDoorOpen(); }
+            }
+            console.log(">",message);
+    }
 	});
 	if(cb) cb();
 }
