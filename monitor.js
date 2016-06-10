@@ -35,18 +35,17 @@ PN.publish({
 var GARAGE_DISTANCE = 130;
 
 var actions = {
-	
-	arriveHome: function() {
+    arriveHome: function() {
         Stepper.stepForward(GARAGE_DISTANCE);
         RGBLED.setAll(true);
-        console.log("lights are on");
+	    console.log("lights are on");
 	},
 	party: function() {
-        console.log("start blinking the party lights");
-        var on = true;
-        var count = 0;
-        RGBLED.setAll(false);
-        var id = setInterval(function() {
+	    console.log("start blinking the party lights");
+            var on = true;
+            var count = 0;
+            RGBLED.setAll(false);
+            var id = setInterval(function() {
 	        if(on===false) {
 		        on = true;
 		        RGBLED.setRed(true);
@@ -62,22 +61,22 @@ var actions = {
         },250);
 	},
 	sleep: function() {
-		console.log("turning lights to blue");
-		RGBLED.setAll(false);
-		RGBLED.setBlue(true);
-        console.log("maggie wants to sleep. dim lights");
+            console.log("turning lights to blue");
+	    RGBLED.setAll(false);
+	    RGBLED.setBlue(true);
+            console.log("maggie wants to sleep. dim lights");
 	},
 	close: function() {
-        console.log("closing the garage door");
-        Stepper.stepBackward(GARAGE_DISTANCE);
+            console.log("closing the garage door");
+            Stepper.stepBackward(GARAGE_DISTANCE);
 	},
 	shutdown: function() {
-        console.log("shut everything off");
-        Stepper.stepBackward(GARAGE_DISTANCE,function() {
-            Stepper.stop(function() {
-                RGBLED.setAll(false);
-            });
-        });
+            console.log("shut everything off");
+            Stepper.stepBackward(GARAGE_DISTANCE,function() {
+                Stepper.stop(function() {
+                    RGBLED.setAll(false);
+               });
+           });
 	},
 	startup: function() {
         console.log("starting up. blinking lights. toggling stepper motor");		
@@ -125,12 +124,14 @@ function d_wait(len) {
 	}
 }
 
-var RED = 11;
-var BLUE = 13;
-var GREEN = 15;
+var RED = 7;
+var BLUE = 11;
+var GREEN = 12;
 async.series([
-	function(cb) { Stepper.init(12,16,18,22,cb)},
+	function(cb) { Stepper.init(32,33,36,35,cb)},
 	function(cb) { console.log("stepper is rolling"); cb(); },
+        function(cb) { Stepper.stepForward(140,cb)},
+        function(cb) { Stepper.stepBackward(140,cb)},
 	
 	function(cb) { RGBLED.init(RED, GREEN, BLUE,cb); },
 	function(cb) { RGBLED.setAll(true,cb)},
@@ -150,6 +151,7 @@ async.series([
 	function(cb) { RGBLED.setAll(false,cb)},
 	function(cb) { console.log("rgb is rolling"); cb(); },
 	startPubNub
+
 ], function() {
 	console.log("the series is done");
 });
