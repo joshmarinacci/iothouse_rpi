@@ -2,9 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Homer Automation</title>
+    <script src="https://cdn.pubnub.com/pubnub-3.15.1.js"></script>
+
+    <style type="text/css">
+        body {
+            text-align: center;
+            font-family: "Helvetica", "Arial",serif;
+            font-size: 200%;
+        }
+        button {
+            font-size: 150%;
+            border: 5px solid black;
+            border-radius: 1em;
+            padding: 1em;
+            background-color: yellow;
+            width: 100%;
+        }
+
+        .spacer {
+            height: 20em;
+        }
+    </style>
 </head>
 <body>
 
+<h2>PubNub Presents</h2>
+<h1>Homer Automation</h1>
+
+<button id="arrive">Arrive Home</button>
+<button id="party">Throw a Party</button>
+<button id="sleep">Put Maggie to Bed</button>
+<button id="close">Close the house</button>
+
+<div class="spacer"></div>
+<button id="startup">Startup</button>
+<button id="shutdown">Shutdown</button>
+<button id="stepDoorClose">Door Close +1</button>
+<button id="stepDoorOpen">Door Open +1</button>
+
+
+<script type="text/javascript">
+    var pubnub = PUBNUB({
+        publish_key: "pub-c-de8f6ece-75ec-49ec-bdd9-b0e9d287a45b",
+        subscribe_key: "sub-c-85f8eba0-ad8d-11e5-ae71-02ee2ddab7fe"
+    });
+
+    ['arrive','party','sleep','close','startup','shutdown','stepDoorClose','stepDoorOpen'].forEach(function(action) {
+        document.getElementById(action).addEventListener("click", function() {
+            console.log('sending the event');
+            pubnub.publish({
+                channel:'ch1',
+                message: {
+                    type: 'action',
+                    action:action
+                },
+                callback: function(m) {
+                    console.log("sent the message",m);
+                }
+            });
+        });
+    });
+
+</script>
 </body>
 </html>
