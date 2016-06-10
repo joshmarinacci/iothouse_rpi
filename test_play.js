@@ -1,3 +1,4 @@
+/*
 var Speaker = require('speaker');
 
 // Create the Speaker instance
@@ -10,3 +11,7 @@ var speaker = new Speaker({
 // PCM data from stdin gets piped into the speaker
 process.stdin.pipe(speaker);
 
+*/
+
+var player = require('./player');
+player.play('party.wav');

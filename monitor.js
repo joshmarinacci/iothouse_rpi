@@ -18,6 +18,7 @@ var PN = require('pubnub')({
   publish_key: "pub-c-de8f6ece-75ec-49ec-bdd9-b0e9d287a45b",
   subscribe_key: "sub-c-85f8eba0-ad8d-11e5-ae71-02ee2ddab7fe"
 });
+var Player = require('./player');
 
 
 var message = {"some":"data"};
@@ -39,9 +40,11 @@ var actions = {
         Stepper.stepForward(GARAGE_DISTANCE);
         RGBLED.setAll(true);
         console.log("lights are on");
+	Player.play('fire.wav');
     },
     party: function() {
         console.log("start blinking the party lights");
+	Player.play('party.wav');
         var on = true;
         var count = 0;
         RGBLED.setAll(false);
@@ -61,12 +64,14 @@ var actions = {
         },250);
     },
     sleep: function() {
+            Player.play('rain.wav');
             console.log("turning lights to blue");
 	    RGBLED.setAll(false);
 	    RGBLED.setBlue(true);
             console.log("maggie wants to sleep. dim lights");
     },
     close: function() {
+	    RGBLED.setAll(false);
             console.log("closing the garage door");
             Stepper.stepBackward(GARAGE_DISTANCE);
     },
@@ -125,8 +130,8 @@ function d_wait(len) {
 }
 
 var RED = 7;
-var BLUE = 11;
-var GREEN = 12;
+var GREEN = 11;
+var BLUE = 12;
 async.series([
 	function(cb) { Stepper.init(32,33,36,35,cb)},
 	function(cb) { console.log("stepper is rolling"); cb(); },
