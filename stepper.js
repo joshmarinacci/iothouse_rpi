@@ -7,7 +7,10 @@ var Stepper = {
 		this.s2 = s2;
 		this.s3 = s3;
 		this.s4 = s4;
-		gpio.setup(this.s1,gpio.DIR_OUT);
+                gpio.setMode(gpio.MODE_RPI);
+		gpio.setup(this.s1,gpio.DIR_OUT, function(err) {
+                    if(err) console.log(" ERROR " + err);
+                });
 		gpio.setup(this.s2,gpio.DIR_OUT);
 		gpio.setup(this.s3,gpio.DIR_OUT);
 		gpio.setup(this.s4,gpio.DIR_OUT);

@@ -1,12 +1,17 @@
+//4, 17, 18 BCM
+//7, 11, 12 RPI
 var gpio = require('rpi-gpio');
 var pin = parseInt(process.argv[2]);
 console.log("pin is ",pin);
-gpio.setup(pin, gpio.DIR_OUT, function() {
-	console.log("pin is set");
-	gpio.write(pin,true, function(err) {
+if(!pin) return console.log("error. must set a pin");
+gpio.setMode(gpio.MODE_RPI);
+gpio.setup(pin, gpio.DIR_OUT, gpio.EDGE_NONE, function(err) {
+	if(err) return console.log("error " + err);
+	console.log("setting pin",pin);
+	gpio.write(pin,1, function(err) {
 		console.log('error was',err);
 		setTimeout(function() {
-                 gpio.write(pin,false, function(err) {
+                 gpio.write(pin,0, function(err) {
                     console.log("done");
                  });
                 },1000);

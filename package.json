@@ -18,7 +18,8 @@
   "homepage": "https://github.com/joshmarinacci/iothouse_rpi",
   "dependencies": {
     "async": "^1.5.0",
+    "pubnub": "^3.7.18",
     "rpi-gpio": "^0.7.0",
-    "pubnub": "^3.7.18"
+    "speaker": "^0.3.0"
   }
 }
